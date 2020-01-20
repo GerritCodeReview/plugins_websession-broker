@@ -31,6 +31,8 @@ import com.google.gerrit.server.events.Event;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
+import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger.Direction;
 import com.googlesource.gerrit.plugins.websession.broker.util.TimeMachine;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,6 +42,7 @@ import java.io.ObjectOutputStream;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
@@ -56,6 +59,7 @@ public class BrokerBasedWebSessionCache
   String webSessionTopicName;
   DynamicItem<BrokerApi> brokerApi;
   TimeMachine timeMachine;
+  private final WebSessionLogger webSessionLogger;
 
   @Inject
   public BrokerBasedWebSessionCache(
@@ -63,11 +67,13 @@ public class BrokerBasedWebSessionCache
       DynamicItem<BrokerApi> brokerApi,
       TimeMachine timeMachine,
       PluginConfigFactory cfg,
-      @PluginName String pluginName) {
+      @PluginName String pluginName,
+      WebSessionLogger webSessionLogger) {
     this.cache = cache;
     this.brokerApi = brokerApi;
     this.timeMachine = timeMachine;
     this.webSessionTopicName = getWebSessionTopicName(cfg, pluginName);
+    this.webSessionLogger = webSessionLogger;
   }
 
   protected void processMessage(EventMessage message) {
@@ -84,6 +90,8 @@ public class BrokerBasedWebSessionCache
         try (ByteArrayInputStream in = new ByteArrayInputStream(event.payload);
             ObjectInputStream inputStream = new ObjectInputStream(in)) {
           Val value = (Val) inputStream.readObject();
+
+          webSessionLogger.log(Direction.CONSUME, webSessionTopicName, event, Optional.of(value));
           Instant expires = Instant.ofEpochMilli(value.getExpiresAt());
           if (expires.isAfter(timeMachine.now())) {
             cache.put(event.key, value);
@@ -96,6 +104,8 @@ public class BrokerBasedWebSessionCache
         break;
       case REMOVE:
         cache.invalidate(event.key);
+        webSessionLogger.log(Direction.CONSUME, webSessionTopicName, event, Optional.empty());
+
         break;
       default:
         logger.atWarning().log(
@@ -181,18 +191,19 @@ public class BrokerBasedWebSessionCache
       objectOutputStream.writeObject(value);
       out.flush();
       byte[] serializedObject = out.toByteArray();
-      EventMessage message =
-          brokerApi
-              .get()
-              .newMessage(UUID.randomUUID(), new WebSessionEvent(key, serializedObject, operation));
+      WebSessionEvent webSessionEvent = new WebSessionEvent(key, serializedObject, operation);
+      EventMessage message = brokerApi.get().newMessage(UUID.randomUUID(), webSessionEvent);
       succeeded = brokerApi.get().send(webSessionTopicName, message);
+      if (succeeded) {
+        webSessionLogger.log(
+            Direction.PUBLISH, webSessionTopicName, webSessionEvent, Optional.ofNullable(value));
+      } else {
+        logger.atSevere().log(
+            "Cannot send web-session message for '%s Topic: '%s'", key, webSessionTopicName);
+      }
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot serialize event for account id '%s': [Exception: %s]", value.getAccountId());
-    } finally {
-      if (!succeeded)
-        logger.atSevere().log(
-            "Cannot send web-session message for '%s Topic: '%s'", key, webSessionTopicName);
     }
   }
 
