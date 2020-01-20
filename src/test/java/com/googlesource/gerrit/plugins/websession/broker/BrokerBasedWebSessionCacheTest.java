@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.events.Event;
 import com.googlesource.gerrit.plugins.websession.broker.BrokerBasedWebSessionCache.WebSessionEvent;
 import com.googlesource.gerrit.plugins.websession.broker.BrokerBasedWebSessionCache.WebSessionEvent.Operation;
+import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.util.TimeMachine;
 import java.time.Instant;
 import java.util.UUID;
@@ -72,6 +73,7 @@ public class BrokerBasedWebSessionCacheTest {
   @Mock TimeMachine timeMachine;
   @Mock PluginConfigFactory cfg;
   @Mock PluginConfig pluginConfig;
+  @Mock WebSessionLogger webSessionLogger;
   @Captor ArgumentCaptor<EventMessage> eventCaptor;
   @Captor ArgumentCaptor<Val> valCaptor;
 
@@ -84,7 +86,9 @@ public class BrokerBasedWebSessionCacheTest {
     when(cfg.getFromGerritConfig(PLUGIN_NAME)).thenReturn(pluginConfig);
     when(timeMachine.now()).thenReturn(Instant.EPOCH);
     DynamicItem<BrokerApi> item = DynamicItem.itemOf(BrokerApi.class, brokerApi);
-    objectUnderTest = new BrokerBasedWebSessionCache(cache, item, timeMachine, cfg, PLUGIN_NAME);
+    objectUnderTest =
+        new BrokerBasedWebSessionCache(
+            cache, item, timeMachine, cfg, PLUGIN_NAME, webSessionLogger);
   }
 
   @Test
