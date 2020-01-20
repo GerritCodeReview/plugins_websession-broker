@@ -27,9 +27,12 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Scopes;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletScopes;
+import com.googlesource.gerrit.plugins.websession.broker.log.Log4jWebSessionLogger;
+import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import java.lang.annotation.Annotation;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,6 +52,9 @@ public class BrokerBasedWebSession extends CacheBasedWebSession {
 
       listener(BrokerBasedWebSessionCache.class);
       listener(BrokerBasedWebSessionCacheCleaner.class);
+      listener(Log4jWebSessionLogger.class);
+
+      bind(WebSessionLogger.class).to(Log4jWebSessionLogger.class).in(Scopes.SINGLETON);
     }
 
     private void listener(Class<? extends LifecycleListener> classObj) {
