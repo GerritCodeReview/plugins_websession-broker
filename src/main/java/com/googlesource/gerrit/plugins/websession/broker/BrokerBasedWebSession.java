@@ -34,6 +34,7 @@ import com.google.inject.servlet.ServletScopes;
 import com.googlesource.gerrit.plugins.websession.broker.log.Log4jWebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import java.lang.annotation.Annotation;
+import java.util.concurrent.Executor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -55,6 +56,7 @@ public class BrokerBasedWebSession extends CacheBasedWebSession {
       listener(Log4jWebSessionLogger.class);
 
       bind(WebSessionLogger.class).to(Log4jWebSessionLogger.class).in(Scopes.SINGLETON);
+      bind(Executor.class).annotatedWith(CacheExecutor.class).toProvider(CacheExecutorProvider.class);
     }
 
     private void listener(Class<? extends LifecycleListener> classObj) {

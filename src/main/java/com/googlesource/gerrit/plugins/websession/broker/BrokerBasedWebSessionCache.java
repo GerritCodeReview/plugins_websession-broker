@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.WebSessionManager;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -47,6 +48,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 @Singleton
 public class BrokerBasedWebSessionCache
@@ -60,20 +62,26 @@ public class BrokerBasedWebSessionCache
   DynamicItem<BrokerApi> brokerApi;
   TimeMachine timeMachine;
   private final WebSessionLogger webSessionLogger;
+  private final Executor executor;
+  private final WorkQueue workQueue;
 
   @Inject
   public BrokerBasedWebSessionCache(
-      @Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache,
-      DynamicItem<BrokerApi> brokerApi,
-      TimeMachine timeMachine,
-      PluginConfigFactory cfg,
-      @PluginName String pluginName,
-      WebSessionLogger webSessionLogger) {
+          @Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache,
+          DynamicItem<BrokerApi> brokerApi,
+          TimeMachine timeMachine,
+          PluginConfigFactory cfg,
+          @PluginName String pluginName,
+          WebSessionLogger webSessionLogger,
+          @CacheExecutor Executor executor,
+          WorkQueue workQueue) {
     this.cache = cache;
     this.brokerApi = brokerApi;
     this.timeMachine = timeMachine;
     this.webSessionTopicName = getWebSessionTopicName(cfg, pluginName);
     this.webSessionLogger = webSessionLogger;
+    this.executor = executor;
+    this.workQueue = workQueue;
   }
 
   protected void processMessage(EventMessage message) {
@@ -116,7 +124,31 @@ public class BrokerBasedWebSessionCache
 
   @Override
   public @Nullable Val getIfPresent(Object key) {
-    return cache.getIfPresent(key);
+    Val value = cache.getIfPresent(key);
+    if (value != null) {
+      logger.atFine().log("Value for account %s and key %s in cache", value.getAccountId(), key);
+      return value;
+    }
+
+    boolean isQueueEmpty = workQueue.getExecutor(CacheExecutorProvider.CACHE_WEBSESSIONS_RELOAD_THREAD).getQueue().isEmpty();
+    if (isQueueEmpty) {
+      logger.atSevere().log("Scheduling reload of all messages");
+      executor.execute(new WebsessionsCacheReloadTask());
+    }
+
+    int MAX_ATTEMPTS = 10;
+    while (value == null && MAX_ATTEMPTS > 0) {
+      logger.atSevere().log("%d attempts left to find value in cache", MAX_ATTEMPTS);
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+        logger.atSevere().withCause(e).log("Thread interrupted while sleeping");
+      }
+      value = cache.getIfPresent(key);
+      MAX_ATTEMPTS--;
+    }
+
+    return value;
   }
 
   @Override
@@ -229,6 +261,20 @@ public class BrokerBasedWebSessionCache
       this.key = key;
       this.payload = payload;
       this.operation = operation;
+    }
+  }
+
+  class WebsessionsCacheReloadTask implements Runnable {
+
+    WebsessionsCacheReloadTask() {};
+
+    @Override
+    public void run() { brokerApi.get().replayAllEvents(webSessionTopicName); }
+
+    @Override
+    public String toString() {
+      return String.format(
+              "Web sessions cache reload from %s topic", webSessionTopicName);
     }
   }
 
