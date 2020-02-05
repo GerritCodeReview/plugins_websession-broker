@@ -68,6 +68,30 @@
       "revId": "7c6a2802a448874acd09717bbb4043335c0dfb6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "139b680f_e4262ea4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-05T14:49:04Z",
+      "side": 1,
+      "message": "\u003e For every missing session in the cache you are repopulating *whole* cache! So for each new login cache is *completely* reloaded. \n\nWhen a new login happens the session is generated and the cache updated. It is not treated as a cache miss.\n\n\u003e I think you should read kafka queue with separate client, filter for the session you are looking for.\n\nBy different client you mean a different group id? \n\n\u003e If it is in the topic you should update cache just for that session and return it.\n\nmmm…you are right that’s a bit silly. I will have to extend the eventbroker interface to do this :(\n\nToo simplistic my approach :/ I was hoping to get away with not many changes, but it is more complex than I thought.",
+      "parentUuid": "72b28c42_4856c214",
+      "range": {
+        "startLine": 272,
+        "startChar": 40,
+        "endLine": 272,
+        "endChar": 55
+      },
+      "revId": "7c6a2802a448874acd09717bbb4043335c0dfb6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
