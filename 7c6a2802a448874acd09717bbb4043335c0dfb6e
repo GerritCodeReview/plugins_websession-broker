@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2d41e745_529d00a3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-05T14:19:46Z",
+      "side": 1,
+      "message": "This is undeterministic, what if it take less than 500 millis to repopulate the cache? We are wasting that time. Second scenario is that repopulate will take 501 millis we are wasting time as well. As I mentioned in my other comment I suggest to have a separate kafka client which is going to look for a session in the topic. You should add timeout to this filtering",
+      "range": {
+        "startLine": 140,
+        "startChar": 3,
+        "endLine": 149,
+        "endChar": 5
+      },
+      "revId": "7c6a2802a448874acd09717bbb4043335c0dfb6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "efdbb509_dd348805",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
         "patchSetId": 1
@@ -18,6 +41,29 @@
         "startChar": 2,
         "endLine": 152,
         "endChar": 3
+      },
+      "revId": "7c6a2802a448874acd09717bbb4043335c0dfb6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b28c42_4856c214",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-05T14:19:46Z",
+      "side": 1,
+      "message": "But this will cause unnecessary traffic and a *lot* of cache eviction events. For every missing session in the cache you are repopulating *whole* cache! So for each new login cache is *completely* reloaded. I think you should read kafka queue with separate client, filter for the session you are looking for. If it is in the topic you should update cache just for that session and return it. It\u0027s going to interrupt normal processing as well because new events are always at the end of the queue so resetting the offset will cause processing delay",
+      "range": {
+        "startLine": 272,
+        "startChar": 40,
+        "endLine": 272,
+        "endChar": 55
       },
       "revId": "7c6a2802a448874acd09717bbb4043335c0dfb6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
