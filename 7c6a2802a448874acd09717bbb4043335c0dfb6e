@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efdbb509_dd348805",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-05T13:57:24Z",
+      "side": 1,
+      "message": "This is how I was thinking of handling the cache miss.\nBefore continuing I wanted to gather some metrics to understand what would be the performance issue of replaying the whole stream to build the in memory cache.\n\nIf we will se a huge performance issue, in case of Kafka based broker, we should think of moving the web sessions to a compacted topic. I believe web sessions are a good fit for the usage of compacted topics since we don\u0027t necessarily need the whole history.",
+      "range": {
+        "startLine": 126,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "7c6a2802a448874acd09717bbb4043335c0dfb6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
