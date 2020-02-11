@@ -28,6 +28,7 @@ import com.gerritforge.gerrit.eventbroker.EventMessage;
 import com.gerritforge.gerrit.eventbroker.EventMessage.Header;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.config.PluginConfig;
@@ -40,6 +41,7 @@ import com.googlesource.gerrit.plugins.websession.broker.util.TimeMachine;
 import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,6 +70,8 @@ public class BrokerBasedWebSessionCacheTest {
         52, 121, 110, 65, 100, 110, 113, 99, 68, 45, 105, 99, 75, 97, 0, 120
       };
 
+  ExecutorService executorServce = MoreExecutors.newDirectExecutorService();
+
   @Mock BrokerApi brokerApi;
   @Mock Cache<String, Val> cache;
   @Mock TimeMachine timeMachine;
@@ -88,7 +92,7 @@ public class BrokerBasedWebSessionCacheTest {
     DynamicItem<BrokerApi> item = DynamicItem.itemOf(BrokerApi.class, brokerApi);
     objectUnderTest =
         new BrokerBasedWebSessionCache(
-            cache, item, timeMachine, cfg, PLUGIN_NAME, webSessionLogger);
+            cache, item, timeMachine, cfg, PLUGIN_NAME, webSessionLogger, executorServce);
   }
 
   @Test
@@ -98,7 +102,6 @@ public class BrokerBasedWebSessionCacheTest {
     when(brokerApi.newMessage(any(UUID.class), any(Event.class))).thenReturn(eventMessage);
 
     objectUnderTest.put(KEY, value);
-
     verify(brokerApi, times(1)).send(anyString(), eventCaptor.capture());
 
     assertThat(eventCaptor.getValue().getEvent()).isNotNull();

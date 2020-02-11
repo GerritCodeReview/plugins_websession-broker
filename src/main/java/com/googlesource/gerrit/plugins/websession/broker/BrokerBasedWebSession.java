@@ -25,6 +25,7 @@ import com.google.gerrit.server.IdentifiedUser.RequestFactory;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.events.EventTypes;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
@@ -34,11 +35,20 @@ import com.google.inject.servlet.ServletScopes;
 import com.googlesource.gerrit.plugins.websession.broker.log.Log4jWebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import java.lang.annotation.Annotation;
+import java.util.concurrent.ExecutorService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class BrokerBasedWebSession extends CacheBasedWebSession {
   public static class Module extends CacheModule {
+    private WorkQueue workQueue;
+    private BrokerBasedWebSessionConfiguration configuration;
+
+    @Inject
+    public Module(WorkQueue workQueue, BrokerBasedWebSessionConfiguration configuration) {
+      this.workQueue = workQueue;
+      this.configuration = configuration;
+    }
 
     @Override
     protected void configure() {
@@ -49,6 +59,12 @@ public class BrokerBasedWebSession extends CacheBasedWebSession {
       DynamicItem.bind(binder(), WebSession.class)
           .to(BrokerBasedWebSession.class)
           .in(RequestScoped.class);
+
+      bind(ExecutorService.class)
+          .annotatedWith(WebSessionProducerExecutor.class)
+          .toInstance(
+              workQueue.createQueue(
+                  configuration.getNumberOfThreads(), "websession-events-producer"));
 
       listener(BrokerBasedWebSessionCache.class);
       listener(BrokerBasedWebSessionCacheCleaner.class);

@@ -47,6 +47,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 @Singleton
 public class BrokerBasedWebSessionCache
@@ -59,6 +60,7 @@ public class BrokerBasedWebSessionCache
   String webSessionTopicName;
   DynamicItem<BrokerApi> brokerApi;
   TimeMachine timeMachine;
+  ExecutorService executor;
   private final WebSessionLogger webSessionLogger;
 
   @Inject
@@ -68,12 +70,14 @@ public class BrokerBasedWebSessionCache
       TimeMachine timeMachine,
       PluginConfigFactory cfg,
       @PluginName String pluginName,
-      WebSessionLogger webSessionLogger) {
+      WebSessionLogger webSessionLogger,
+      @WebSessionProducerExecutor ExecutorService executor) {
     this.cache = cache;
     this.brokerApi = brokerApi;
     this.timeMachine = timeMachine;
     this.webSessionTopicName = getWebSessionTopicName(cfg, pluginName);
     this.webSessionLogger = webSessionLogger;
+    this.executor = executor;
   }
 
   protected void processMessage(EventMessage message) {
@@ -184,26 +188,11 @@ public class BrokerBasedWebSessionCache
   }
 
   private void sendEvent(String key, Val value, WebSessionEvent.Operation operation) {
-    boolean succeeded = false;
-    try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(out)) {
-
-      objectOutputStream.writeObject(value);
-      out.flush();
-      byte[] serializedObject = out.toByteArray();
-      WebSessionEvent webSessionEvent = new WebSessionEvent(key, serializedObject, operation);
-      EventMessage message = brokerApi.get().newMessage(UUID.randomUUID(), webSessionEvent);
-      succeeded = brokerApi.get().send(webSessionTopicName, message);
-      if (succeeded) {
-        webSessionLogger.log(
-            Direction.PUBLISH, webSessionTopicName, webSessionEvent, Optional.ofNullable(value));
-      } else {
-        logger.atSevere().log(
-            "Cannot send web-session message for '%s Topic: '%s'", key, webSessionTopicName);
-      }
-    } catch (IOException e) {
+    try {
+      executor.execute(new WebSessionEventTask(key, value, operation));
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log(
-          "Cannot serialize event for account id '%s': [Exception: %s]", value.getAccountId());
+          "Cannot send web-session message for '%s Topic: '%s'", key, webSessionTopicName);
     }
   }
 
@@ -243,4 +232,41 @@ public class BrokerBasedWebSessionCache
 
   @Override
   public void stop() {}
+
+  private class WebSessionEventTask implements Runnable {
+    private String key;
+    private Val value;
+    private WebSessionEvent.Operation operation;
+
+    public WebSessionEventTask(String key, Val value, WebSessionEvent.Operation operation) {
+      this.key = key;
+      this.value = value;
+      this.operation = operation;
+    }
+
+    @Override
+    public void run() {
+      boolean succeeded = false;
+      try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+          ObjectOutputStream objectOutputStream = new ObjectOutputStream(out)) {
+
+        objectOutputStream.writeObject(value);
+        out.flush();
+        byte[] serializedObject = out.toByteArray();
+        WebSessionEvent webSessionEvent = new WebSessionEvent(key, serializedObject, operation);
+        EventMessage message = brokerApi.get().newMessage(UUID.randomUUID(), webSessionEvent);
+        succeeded = brokerApi.get().send(webSessionTopicName, message);
+        if (succeeded) {
+          webSessionLogger.log(
+              Direction.PUBLISH, webSessionTopicName, webSessionEvent, Optional.ofNullable(value));
+        } else {
+          logger.atSevere().log(
+              "Cannot send web-session message for '%s Topic: '%s'", key, webSessionTopicName);
+        }
+      } catch (IOException e) {
+        logger.atSevere().withCause(e).log(
+            "Cannot serialize event for account id '%s': [Exception: %s]", value.getAccountId());
+      }
+    }
+  }
 }
