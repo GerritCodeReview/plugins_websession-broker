@@ -18,6 +18,10 @@ Configuration parameters
 :   Name of the topic to use for publishing web session events.
     Default: gerrit\_web\_session
 
+`plugin.websession-broker.numberOfThreads`
+:   Number of threads used to send web session events via events-broker.
+    Default: 1
+
 `plugin.websession-broker.cleanupInterval`
 :   Frequency of the expired web session cleanup operation.
     Value should use common time unit suffixes to express their setting:
