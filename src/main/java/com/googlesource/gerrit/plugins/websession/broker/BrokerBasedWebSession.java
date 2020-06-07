@@ -22,6 +22,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.WebSessionManagerFactory;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser.RequestFactory;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.events.EventTypes;
@@ -71,13 +72,15 @@ public class BrokerBasedWebSession extends CacheBasedWebSession {
       BrokerBasedWebSessionCache cache,
       AuthConfig authConfig,
       Provider<AnonymousUser> anonymousProvider,
-      RequestFactory identified) {
+      RequestFactory identified,
+      AccountCache byIdCache) {
     super(
         request.get(),
         response.get(),
         managerFactory.create(cache),
         authConfig,
         anonymousProvider,
-        identified);
+        identified,
+        byIdCache);
   }
 }
