@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e6ff639_8566b849",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-08-11T15:41:29Z",
+      "side": 1,
+      "message": "annotated",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "4e84e1eabff6864fe23c36a143f2909fe39b34b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d048ac97_aad2c7dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-08-11T15:41:29Z",
+      "side": 1,
+      "message": "could you mention issue related to this bug: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13263",
+      "revId": "4e84e1eabff6864fe23c36a143f2909fe39b34b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
