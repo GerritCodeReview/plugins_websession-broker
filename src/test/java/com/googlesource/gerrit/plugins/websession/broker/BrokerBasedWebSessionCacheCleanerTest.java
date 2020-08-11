@@ -18,7 +18,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,17 +62,6 @@ public class BrokerBasedWebSessionCacheCleanerTest {
     objectUnderTest =
         new BrokerBasedWebSessionCacheCleaner(
             workQueueMock, cleanupTaskProviderMock, cfg, SOME_PLUGIN_NAME);
-  }
-
-  @Test
-  public void testCleanupTaskRun() {
-    BrokerBasedWebSessionCache cacheMock = mock(BrokerBasedWebSessionCache.class);
-    CleanupTask task = new CleanupTask(cacheMock, null);
-    int numberOfRuns = 5;
-    for (int i = 0; i < numberOfRuns; i++) {
-      task.run();
-    }
-    verify(cacheMock, times(numberOfRuns)).cleanUp();
   }
 
   @Test

@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -40,12 +41,11 @@ public class BrokerBasedWebSessionCacheCleaner implements LifecycleListener {
   long cleanupIntervalMillis;
 
   static class CleanupTask implements Runnable {
-    private final BrokerBasedWebSessionCache brokerBasedWebSessionCache;
+    private final Cache<?, ?> brokerBasedWebSessionCache;
     private final String pluginName;
 
     @Inject
-    CleanupTask(
-        BrokerBasedWebSessionCache brokerBasedWebSessionCache, @PluginName String pluginName) {
+    CleanupTask(Cache<?, ?> brokerBasedWebSessionCache, @PluginName String pluginName) {
       this.brokerBasedWebSessionCache = brokerBasedWebSessionCache;
       this.pluginName = pluginName;
     }
