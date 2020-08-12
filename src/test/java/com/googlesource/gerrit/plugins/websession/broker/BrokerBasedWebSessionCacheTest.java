@@ -29,6 +29,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.httpd.FakeWebSessionVal;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.PluginConfig;
@@ -54,8 +55,7 @@ public class BrokerBasedWebSessionCacheTest {
 
   private static final int DEFAULT_ACCOUNT_ID = 1000000;
   private static final String KEY = "aSceprtma6B0qZ0hKxXHvQ5iyfUhCcFXxG";
-  private static Val VAL =
-      new Val(Account.id(1), 0, false, ExternalId.Key.parse("foo:bar"), 0, "", "");
+  private static Val VAL = FakeWebSessionVal.getVal(Account.id(1), ExternalId.Key.parse("foo:bar"));
   private static final String PLUGIN_NAME = "websession-broker";
 
   private byte[] emptyPayload = new byte[] {-84, -19, 0, 5, 112};
