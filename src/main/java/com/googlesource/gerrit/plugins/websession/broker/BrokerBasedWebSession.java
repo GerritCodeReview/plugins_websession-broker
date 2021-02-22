@@ -14,11 +14,14 @@
 
 package com.googlesource.gerrit.plugins.websession.broker;
 
+import static com.googlesource.gerrit.plugins.websession.broker.BrokerBasedWebSessionCache.WEB_SESSION_BROKER_IN_MEMORY_CACHE_NAME;
+
 import com.google.gerrit.extensions.annotations.RootRelative;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.WebSessionManager;
 import com.google.gerrit.httpd.WebSessionManagerFactory;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser.RequestFactory;
@@ -36,6 +39,7 @@ import com.google.inject.servlet.ServletScopes;
 import com.googlesource.gerrit.plugins.websession.broker.log.Log4jWebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import java.lang.annotation.Annotation;
+import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,6 +76,11 @@ public class BrokerBasedWebSession extends CacheBasedWebSession {
       listener(Log4jWebSessionLogger.class);
 
       bind(WebSessionLogger.class).to(Log4jWebSessionLogger.class).in(Scopes.SINGLETON);
+
+      cache(WEB_SESSION_BROKER_IN_MEMORY_CACHE_NAME, String.class, WebSessionManager.Val.class)
+          .configKey(WebSessionManager.CACHE_NAME)
+          .maximumWeight(1024)
+          .expireAfterWrite(Duration.ofMinutes(CacheBasedWebSession.MAX_AGE_MINUTES));
     }
 
     private void listener(Class<? extends LifecycleListener> classObj) {
