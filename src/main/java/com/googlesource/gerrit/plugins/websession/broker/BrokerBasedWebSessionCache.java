@@ -55,6 +55,7 @@ public class BrokerBasedWebSessionCache
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static String DEFAULT_WEB_SESSION_TOPIC = "gerrit_web_session";
+  protected static final String WEB_SESSION_BROKER_CACHE_NAME = "web_session_broker_cache";
 
   Cache<String, Val> cache;
   String webSessionTopicName;
@@ -65,7 +66,7 @@ public class BrokerBasedWebSessionCache
 
   @Inject
   public BrokerBasedWebSessionCache(
-      @Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache,
+      @Named(WEB_SESSION_BROKER_CACHE_NAME) Cache<String, Val> cache,
       DynamicItem<BrokerApi> brokerApi,
       TimeMachine timeMachine,
       PluginConfigFactory cfg,
