@@ -16,6 +16,23 @@
       "message": "We need a discussion:\nif we replace that cache with an inmemory one (i.e. non H2), then all users are logged out at restart time. the websession-broker does not read from the topic, but just from the cache behind it[1]\n\n[1]https://gerrit.googlesource.com/plugins/websession-broker/+/refs/heads/stable-3.3/src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java#122",
       "revId": "7425b23c10123bc73a3cf1a07f5be32c48de3465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e55369cb_ad0a36cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-23T17:58:44Z",
+      "side": 1,
+      "message": "Let\u0027s block this for a second: we need to be sure that this isn\u0027t going to make the whole system unstable.\n\nIf the PubSub system isn\u0027t available, we don\u0027t have session anymore anywhere, that\u0027s a bad thing.",
+      "revId": "7425b23c10123bc73a3cf1a07f5be32c48de3465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
