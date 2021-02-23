@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d983e06_cc6290ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-23T17:50:33Z",
+      "side": 1,
+      "message": "We need a discussion:\nif we replace that cache with an inmemory one (i.e. non H2), then all users are logged out at restart time. the websession-broker does not read from the topic, but just from the cache behind it[1]\n\n[1]https://gerrit.googlesource.com/plugins/websession-broker/+/refs/heads/stable-3.3/src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java#122",
+      "revId": "7425b23c10123bc73a3cf1a07f5be32c48de3465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
