@@ -20,6 +20,10 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -246,7 +250,6 @@ public class BrokerBasedWebSessionCache
 
     @Override
     public void run() {
-      boolean succeeded = false;
       try (ByteArrayOutputStream out = new ByteArrayOutputStream();
           ObjectOutputStream objectOutputStream = new ObjectOutputStream(out)) {
 
@@ -255,14 +258,27 @@ public class BrokerBasedWebSessionCache
         byte[] serializedObject = out.toByteArray();
         WebSessionEvent webSessionEvent = new WebSessionEvent(key, serializedObject, operation);
         EventMessage message = brokerApi.get().newMessage(UUID.randomUUID(), webSessionEvent);
-        succeeded = brokerApi.get().send(webSessionTopicName, message);
-        if (succeeded) {
-          webSessionLogger.log(
-              Direction.PUBLISH, webSessionTopicName, webSessionEvent, Optional.ofNullable(value));
-        } else {
-          logger.atSevere().log(
-              "Cannot send web-session message for '%s Topic: '%s'", key, webSessionTopicName);
-        }
+        ListenableFuture<Boolean> resultF = brokerApi.get().send(webSessionTopicName, message);
+        Futures.addCallback(
+            resultF,
+            new FutureCallback<Boolean>() {
+              @Override
+              public void onSuccess(Boolean aBoolean) {
+                webSessionLogger.log(
+                    Direction.PUBLISH,
+                    webSessionTopicName,
+                    webSessionEvent,
+                    Optional.ofNullable(value));
+              }
+
+              @Override
+              public void onFailure(Throwable throwable) {
+                logger.atSevere().log(
+                    "Cannot send web-session message for '%s Topic: '%s'",
+                    key, webSessionTopicName);
+              }
+            },
+            MoreExecutors.directExecutor());
       } catch (IOException e) {
         logger.atSevere().withCause(e).log(
             "Cannot serialize event for account id '%s': [Exception: %s]", value.getAccountId());
