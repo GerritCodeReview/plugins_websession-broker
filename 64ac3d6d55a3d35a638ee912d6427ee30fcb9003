@@ -70,6 +70,30 @@
       },
       "revId": "64ac3d6d55a3d35a638ee912d6427ee30fcb9003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d56b6a6_90b61cdf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-05-04T15:08:33Z",
+      "side": 1,
+      "message": "Unfortunately, it is mandatory in the Guava version we are using",
+      "parentUuid": "b9f50ef9_6dc0621c",
+      "range": {
+        "startLine": 281,
+        "startChar": 12,
+        "endLine": 281,
+        "endChar": 42
+      },
+      "revId": "64ac3d6d55a3d35a638ee912d6427ee30fcb9003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
