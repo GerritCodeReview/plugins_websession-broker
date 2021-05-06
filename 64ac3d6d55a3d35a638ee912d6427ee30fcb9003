@@ -118,6 +118,30 @@
       },
       "revId": "64ac3d6d55a3d35a638ee912d6427ee30fcb9003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7df3fac_f8254b03",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-05-06T17:58:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8316a71c_1961efcb",
+      "range": {
+        "startLine": 281,
+        "startChar": 12,
+        "endLine": 281,
+        "endChar": 42
+      },
+      "revId": "64ac3d6d55a3d35a638ee912d6427ee30fcb9003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
