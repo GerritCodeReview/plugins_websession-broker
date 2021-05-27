@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.websession.broker;
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
-import com.gerritforge.gerrit.eventbroker.EventMessage;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
 import com.google.common.collect.ImmutableMap;
@@ -30,6 +29,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSessionManager;
 import com.google.gerrit.httpd.WebSessionManager.Val;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.events.Event;
 import com.google.inject.Inject;
@@ -47,7 +47,6 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -66,6 +65,7 @@ public class BrokerBasedWebSessionCache
   TimeMachine timeMachine;
   ExecutorService executor;
   private final WebSessionLogger webSessionLogger;
+  private String instanceId;
 
   @Inject
   public BrokerBasedWebSessionCache(
@@ -75,23 +75,24 @@ public class BrokerBasedWebSessionCache
       PluginConfigFactory cfg,
       @PluginName String pluginName,
       WebSessionLogger webSessionLogger,
-      @WebSessionProducerExecutor ExecutorService executor) {
+      @WebSessionProducerExecutor ExecutorService executor,
+      @Nullable @GerritInstanceId String gerritInstanceId) {
     this.cache = cache;
     this.brokerApi = brokerApi;
     this.timeMachine = timeMachine;
     this.webSessionTopicName = getWebSessionTopicName(cfg, pluginName);
     this.webSessionLogger = webSessionLogger;
     this.executor = executor;
+    this.instanceId = gerritInstanceId;
   }
 
-  protected void processMessage(EventMessage message) {
-    if (!WebSessionEvent.TYPE.equals(message.getEvent().getType())) {
-      logger.atWarning().log(
-          "Skipping web session message of unknown type:{}", message.getEvent().getType());
+  protected void processMessage(Event message) {
+    if (!WebSessionEvent.TYPE.equals(message.getType())) {
+      logger.atWarning().log("Skipping web session message of unknown type:{}", message.getType());
       return;
     }
 
-    WebSessionEvent event = (WebSessionEvent) message.getEvent();
+    WebSessionEvent event = (WebSessionEvent) message;
 
     switch (event.operation) {
       case ADD:
@@ -106,8 +107,7 @@ public class BrokerBasedWebSessionCache
           }
 
         } catch (IOException | ClassNotFoundException e) {
-          logger.atSevere().withCause(e).log(
-              "Malformed event '%s': [Exception: %s]", message.getHeader());
+          logger.atSevere().withCause(e).log("Malformed event '%s': [Exception: %s]", message);
         }
         break;
       case REMOVE:
@@ -257,8 +257,9 @@ public class BrokerBasedWebSessionCache
         out.flush();
         byte[] serializedObject = out.toByteArray();
         WebSessionEvent webSessionEvent = new WebSessionEvent(key, serializedObject, operation);
-        EventMessage message = brokerApi.get().newMessage(UUID.randomUUID(), webSessionEvent);
-        ListenableFuture<Boolean> resultF = brokerApi.get().send(webSessionTopicName, message);
+        webSessionEvent.instanceId = instanceId;
+        ListenableFuture<Boolean> resultF =
+            brokerApi.get().send(webSessionTopicName, webSessionEvent);
         Futures.addCallback(
             resultF,
             new FutureCallback<Boolean>() {
