@@ -15,15 +15,12 @@
 package com.googlesource.gerrit.plugins.websession.broker;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
-import com.gerritforge.gerrit.eventbroker.EventMessage;
-import com.gerritforge.gerrit.eventbroker.EventMessage.Header;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -40,7 +37,6 @@ import com.googlesource.gerrit.plugins.websession.broker.BrokerBasedWebSessionCa
 import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.util.TimeMachine;
 import java.time.Instant;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,10 +75,12 @@ public class BrokerBasedWebSessionCacheTest {
   @Mock PluginConfigFactory cfg;
   @Mock PluginConfig pluginConfig;
   @Mock WebSessionLogger webSessionLogger;
-  @Captor ArgumentCaptor<EventMessage> eventCaptor;
+  @Captor ArgumentCaptor<Event> eventCaptor;
   @Captor ArgumentCaptor<Val> valCaptor;
 
   BrokerBasedWebSessionCache objectUnderTest;
+
+  String instanceId = "instance-id";
 
   @Before
   public void setup() {
@@ -94,20 +92,26 @@ public class BrokerBasedWebSessionCacheTest {
     DynamicItem<BrokerApi> item = DynamicItem.itemOf(BrokerApi.class, brokerApi);
     objectUnderTest =
         new BrokerBasedWebSessionCache(
-            cache, item, timeMachine, cfg, PLUGIN_NAME, webSessionLogger, executorServce);
+            cache,
+            item,
+            timeMachine,
+            cfg,
+            PLUGIN_NAME,
+            webSessionLogger,
+            executorServce,
+            instanceId);
   }
 
   @Test
   public void shouldPublishMessageWhenLoginEvent() {
-    EventMessage eventMessage = createEventMessage();
+    WebSessionEvent eventMessage = createEventMessage();
     Val value = createVal(eventMessage);
-    when(brokerApi.newMessage(any(UUID.class), any(Event.class))).thenReturn(eventMessage);
 
     objectUnderTest.put(KEY, value);
     verify(brokerApi, times(1)).send(anyString(), eventCaptor.capture());
 
-    assertThat(eventCaptor.getValue().getEvent()).isNotNull();
-    WebSessionEvent event = (WebSessionEvent) eventCaptor.getValue().getEvent();
+    assertThat(eventCaptor.getValue()).isNotNull();
+    WebSessionEvent event = (WebSessionEvent) eventCaptor.getValue();
     assertThat(event.operation).isEqualTo(WebSessionEvent.Operation.ADD);
     assertThat(event.key).isEqualTo(KEY);
     assertThat(event.payload).isEqualTo(defaultPayload);
@@ -115,15 +119,12 @@ public class BrokerBasedWebSessionCacheTest {
 
   @Test
   public void shouldPublishMessageWhenLogoutEvent() {
-    EventMessage eventMessage = createEventMessage(emptyPayload, Operation.REMOVE);
-    when(brokerApi.newMessage(any(UUID.class), any(Event.class))).thenReturn(eventMessage);
-
     objectUnderTest.invalidate(KEY);
 
     verify(brokerApi, times(1)).send(anyString(), eventCaptor.capture());
 
-    assertThat(eventCaptor.getValue().getEvent()).isNotNull();
-    WebSessionEvent event = (WebSessionEvent) eventCaptor.getValue().getEvent();
+    assertThat(eventCaptor.getValue()).isNotNull();
+    WebSessionEvent event = (WebSessionEvent) eventCaptor.getValue();
     assertThat(event.operation).isEqualTo(WebSessionEvent.Operation.REMOVE);
     assertThat(event.key).isEqualTo(KEY);
     assertThat(event.payload).isEqualTo(emptyPayload);
@@ -131,7 +132,7 @@ public class BrokerBasedWebSessionCacheTest {
 
   @Test
   public void shouldUpdateCacheWhenLoginMessageReceived() {
-    EventMessage eventMessage = createEventMessage();
+    WebSessionEvent eventMessage = createEventMessage();
 
     objectUnderTest.processMessage(eventMessage);
 
@@ -142,7 +143,7 @@ public class BrokerBasedWebSessionCacheTest {
 
   @Test
   public void shouldUpdateCacheWhenLogoutMessageReceived() {
-    EventMessage eventMessage = createEventMessage(emptyPayload, Operation.REMOVE);
+    WebSessionEvent eventMessage = createEventMessage(emptyPayload, Operation.REMOVE);
     cache.put(KEY, VAL);
 
     objectUnderTest.processMessage(eventMessage);
@@ -154,7 +155,7 @@ public class BrokerBasedWebSessionCacheTest {
   public void shouldCleanupExpiredSessions() {
     when(timeMachine.now()).thenReturn(Instant.MIN, Instant.MAX);
 
-    EventMessage eventMessage = createEventMessage();
+    WebSessionEvent eventMessage = createEventMessage();
 
     objectUnderTest.processMessage(eventMessage);
 
@@ -166,30 +167,25 @@ public class BrokerBasedWebSessionCacheTest {
     assertThat(cache.getIfPresent(eventMessageKey(eventMessage))).isNull();
   }
 
-  private Val createVal(EventMessage message) {
-    WebSessionEvent event = (WebSessionEvent) message.getEvent();
+  private Val createVal(Event message) {
+    WebSessionEvent event = (WebSessionEvent) message;
 
     objectUnderTest.processMessage(message);
     return cache.getIfPresent(event.key);
   }
 
-  private EventMessage createEventMessage() {
+  private WebSessionEvent createEventMessage() {
 
     return createEventMessage(defaultPayload, Operation.ADD);
   }
 
-  private String eventMessageKey(EventMessage eventMessage) {
-    WebSessionEvent sessionEvent = (WebSessionEvent) eventMessage.getEvent();
-    return sessionEvent.key;
+  private String eventMessageKey(WebSessionEvent eventMessage) {
+    return eventMessage.key;
   }
 
-  private EventMessage createEventMessage(byte[] payload, Operation operation) {
-
-    Header header =
-        new Header(
-            UUID.fromString("7cb80dbe-65c4-4f2c-84de-580d98199d4a"),
-            UUID.fromString("97711495-1013-414e-bfd2-44776787520d"));
+  private WebSessionEvent createEventMessage(byte[] payload, Operation operation) {
     WebSessionEvent event = new WebSessionEvent(KEY, payload, operation);
-    return new EventMessage(header, event);
+    event.instanceId = instanceId;
+    return event;
   }
 }
