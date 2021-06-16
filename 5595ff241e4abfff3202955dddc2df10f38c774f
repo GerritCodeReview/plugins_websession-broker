@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcff113a_32cf2d0e",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-16T10:33:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4762e591_b1ad5c5f",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d8e86c7_5929ca14",
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "Good point I will do that in a follow up change",
       "parentUuid": "3d8e86c7_5929ca14",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 48
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60bb6d93_7ae70608",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-16T10:33:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "af6e8c72_ad521275",
       "range": {
         "startLine": 260,
         "startChar": 8,
