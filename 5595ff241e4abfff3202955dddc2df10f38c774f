@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4762e591_b1ad5c5f",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-06-16T10:02:33Z",
+      "side": 1,
+      "message": "Yeah our tagging is a controversial process. Usually we do not tag each version we just publish build to maven. @luca could you explain the process because it\u0027s not clear for me as well",
+      "parentUuid": "eab60a0a_9243b9b3",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d8e86c7_5929ca14",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2021-06-16T09:40:47Z",
       "side": 1,
       "message": "What happens when instanceId is null?\nI understand there a CR[1] to ensure it is not, but that is only for multi-site right?\n\nDo we need to enforce it to be defined in all the components?\n\n[1]https://gerrit-review.googlesource.com/c/plugins/multi-site/+/309002",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 48
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af6e8c72_ad521275",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-06-16T10:02:33Z",
+      "side": 1,
+      "message": "Good point I will do that in a follow up change",
+      "parentUuid": "3d8e86c7_5929ca14",
       "range": {
         "startLine": 260,
         "startChar": 8,
