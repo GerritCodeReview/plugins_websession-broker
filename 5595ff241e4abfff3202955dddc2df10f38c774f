@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d2a36b_c5df724e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-16T09:40:47Z",
+      "side": 1,
+      "message": "It might not be clear to the reader what this workaround was.\n\nCould we explain it briefly that the EventMessage was enriching the Event message with some additional identifier, but now that\u0027s not needed because Event already has it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab60a0a_9243b9b3",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-16T09:40:47Z",
+      "side": 1,
+      "message": "I don\u0027t see the relevant tag in the events-broker module [1].\nHas that just been forgotten?\n\n[1]https://gerrit.googlesource.com/modules/events-broker/",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d8e86c7_5929ca14",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-16T09:40:47Z",
+      "side": 1,
+      "message": "What happens when instanceId is null?\nI understand there a CR[1] to ensure it is not, but that is only for multi-site right?\n\nDo we need to enforce it to be defined in all the components?\n\n[1]https://gerrit-review.googlesource.com/c/plugins/multi-site/+/309002",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 48
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2eb68bc_9b52b31a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-16T09:40:47Z",
+      "side": 1,
+      "message": "Isn\u0027t setting the instanceId responsibility of the *broker* itself?\n\nLook at what the Gerrit\u0027s EventBroker does for example[1]\n\n```\nsetInstanceIdWhenEmpty(event);\n```\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/server/events/EventBroker.java#115",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 71
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
