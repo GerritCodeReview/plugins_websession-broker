@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2936fa_7baa26b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-06-18T18:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9587086f_85a13c45",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eab60a0a_9243b9b3",
@@ -156,6 +180,30 @@
       "writtenOn": "2021-06-18T00:03:50Z",
       "side": 1,
       "message": "GerritInstanceId is mandatory here, isn\u0027t it?",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 15
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96bffd92_dd1572a8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-06-18T18:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a757d44_07dd51bd",
       "range": {
         "startLine": 79,
         "startChar": 6,
