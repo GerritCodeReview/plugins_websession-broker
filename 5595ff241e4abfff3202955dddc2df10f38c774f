@@ -426,6 +426,30 @@
       },
       "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab139c2d_6c501a1b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-18T21:08:26Z",
+      "side": 1,
+      "message": "[1] Is where the event is generated in Gerrit whilst here is when the event is sent to an external broker.\n\nAll events when they are generated should have an instance-id set, if defined in the gerrit.config. If an event reaches *this* event-broker and doesn\u0027t have an instance-id whilst there was an instance-id configured in Gerrit, then something isn\u0027t right.\n\nImagine that for whatever reason (software bug?) an event is created without an instance-id, even if it is supposed to be assigned in [1].\n\nThen we get the event object at this stage and we send it over assuming that the instance-id is the local one, whilst it could or could not be.",
+      "parentUuid": "8dd9bd2e_9564a586",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 71
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
