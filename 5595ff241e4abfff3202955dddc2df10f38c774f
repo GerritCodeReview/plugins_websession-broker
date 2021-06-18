@@ -330,6 +330,30 @@
       },
       "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6e736d5_8a79eba9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-06-18T18:09:14Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t see why the broker couldn\u0027t also *stamp* the messages with the instanceId of the instance producing them, in fact I think it should.\n\nBecause broker doesn\u0027t have knowledge if event was created by this instance or it\u0027s just forwarded one.",
+      "parentUuid": "83cc46ea_59c49d6f",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 71
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
