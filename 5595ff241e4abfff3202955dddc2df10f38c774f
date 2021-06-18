@@ -306,6 +306,30 @@
       },
       "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83cc46ea_59c49d6f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-06-18T05:56:01Z",
+      "side": 1,
+      "message": "\u003e -1, the broker is just responsible for sending and receiving events.\n\nWhy is that the case?\nI don\u0027t see why the broker couldn\u0027t also *stamp* the messages with the instanceId of the instance producing them, in fact I think it should.\nThis would allow to have one central place, where the setting of the instanceId happens, rather than copy/pasting the same code in every broker consumer.\n\n\u003e The events need to be created with their instance-id from the start, exactly as Gerrit does.\n\nIsn\u0027t [1], showing the opposite approach?\nThe EventBroker sets the instance-id (when not already set).\n\nAm I missing something?\n\n\n[1]thttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/server/events/EventBroker.java#115",
+      "parentUuid": "577f1816_0d9dfd48",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 71
+      },
+      "revId": "5595ff241e4abfff3202955dddc2df10f38c774f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
