@@ -16,6 +16,23 @@
       "message": "We should also document that from now on, the instance-id is a mandatory field for using the websesion-broker in Gerrit.",
       "revId": "77d93eabd7e8c80da017650021d43a8a033029a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a794e9ad_fd85935f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-06-22T01:15:46Z",
+      "side": 1,
+      "message": "@Marcin have you checked if websession-broker would work without instance-id set?\nIn theory it should work, because even if you receive the session you\u0027ve created, you\u0027ll just update it locally and it won\u0027t generated another event.\n\nThe discussion about instance-id would therefore be irrelevant here, but only related to the multi-site use-case.",
+      "revId": "77d93eabd7e8c80da017650021d43a8a033029a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
