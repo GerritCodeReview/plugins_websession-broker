@@ -33,6 +33,24 @@
       "message": "@Marcin have you checked if websession-broker would work without instance-id set?\nIn theory it should work, because even if you receive the session you\u0027ve created, you\u0027ll just update it locally and it won\u0027t generated another event.\n\nThe discussion about instance-id would therefore be irrelevant here, but only related to the multi-site use-case.",
       "revId": "77d93eabd7e8c80da017650021d43a8a033029a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28081f8c_f2749e16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-06-22T11:57:08Z",
+      "side": 1,
+      "message": "Unfortunately it will not work because websession-broker is using EventDeserialiser from events-broker library and EventDeserialiser validate if instance-id is populated[1]. Maybe we should relax validation in events-broker?\n\n[1] https://gerrit-review.googlesource.com/c/modules/events-broker/+/307628/7/src/main/java/com/gerritforge/gerrit/eventbroker/EventDeserializer.java#52",
+      "parentUuid": "a794e9ad_fd85935f",
+      "revId": "77d93eabd7e8c80da017650021d43a8a033029a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
