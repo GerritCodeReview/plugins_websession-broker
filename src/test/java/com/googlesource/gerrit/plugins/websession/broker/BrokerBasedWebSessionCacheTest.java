@@ -51,7 +51,8 @@ public class BrokerBasedWebSessionCacheTest {
 
   private static final int DEFAULT_ACCOUNT_ID = 1000000;
   private static final String KEY = "aSceprtma6B0qZ0hKxXHvQ5iyfUhCcFXxG";
-  private static Val VAL = FakeWebSessionVal.getVal(Account.id(1), ExternalId.Key.parse("foo:bar"));
+  private static Val VAL =
+      FakeWebSessionVal.getVal(Account.id(1), ExternalId.Key.parse("foo:bar", true));
   private static final String PLUGIN_NAME = "websession-broker";
 
   private byte[] emptyPayload = new byte[] {-84, -19, 0, 5, 112};
