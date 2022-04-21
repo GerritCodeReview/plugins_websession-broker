@@ -88,7 +88,7 @@ public class BrokerBasedWebSessionCache
 
   protected void processMessage(Event message) {
     if (!WebSessionEvent.TYPE.equals(message.getType())) {
-      logger.atWarning().log("Skipping web session message of unknown type:{}", message.getType());
+      logger.atWarning().log("Skipping web session message of unknown type: %s", message.getType());
       return;
     }
 
@@ -107,7 +107,7 @@ public class BrokerBasedWebSessionCache
           }
 
         } catch (IOException | ClassNotFoundException e) {
-          logger.atSevere().withCause(e).log("Malformed event '%s': [Exception: %s]", message);
+          logger.atSevere().withCause(e).log("Malformed event '%s'", message);
         }
         break;
       case REMOVE:
@@ -117,7 +117,7 @@ public class BrokerBasedWebSessionCache
         break;
       default:
         logger.atWarning().log(
-            "Skipping web session message of unknown operation type:{}", event.operation);
+            "Skipping web session message of unknown operation type: %s", event.operation);
         break;
     }
   }
@@ -282,7 +282,7 @@ public class BrokerBasedWebSessionCache
             MoreExecutors.directExecutor());
       } catch (IOException e) {
         logger.atSevere().withCause(e).log(
-            "Cannot serialize event for account id '%s': [Exception: %s]", value.getAccountId());
+            "Cannot serialize event for account id '%s'", value.getAccountId());
       }
     }
   }
