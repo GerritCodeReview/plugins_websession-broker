@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe104a3e_dd2c20a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:53:03Z",
+      "side": 1,
+      "message": "I have to change my mind: why don\u0027t we just check if the `web_sessions` is persisted or not? If it is NOT persisted, we replay the topic, otherwise we don\u0027t.",
+      "revId": "0c78efe9c2ff32d65c4c411b3734ad364e5cf3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a05240_80364e51",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:53:03Z",
+      "side": 1,
+      "message": "That isn\u0027t relevant: any cache backend would implement somehow the persistence. The cache by default is persisted, so only if someone would set `cache.web_sessions.diskLimit \u003d 0` then it would be in-memory.",
+      "range": {
+        "startLine": 41,
+        "startChar": 9,
+        "endLine": 41,
+        "endChar": 84
+      },
+      "revId": "0c78efe9c2ff32d65c4c411b3734ad364e5cf3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
