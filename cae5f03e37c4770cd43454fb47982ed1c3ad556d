@@ -123,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54935d10_dbb22b74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-01T21:47:49Z",
+      "side": 1,
+      "message": "We do not have tests for that part of the code, could this be done as a follow up change?",
+      "parentUuid": "d3d193ad_a043b75d",
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b12e718e_3f2e2d31",
@@ -159,6 +177,30 @@
       "writtenOn": "2022-12-01T21:45:16Z",
       "side": 1,
       "message": "Ack",
+      "parentUuid": "b12e718e_3f2e2d31",
+      "range": {
+        "startLine": 60,
+        "startChar": 61,
+        "endLine": 60,
+        "endChar": 65
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6af9f61e_645d33b6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-01T21:47:49Z",
+      "side": 1,
+      "message": "Good idea!",
       "parentUuid": "b12e718e_3f2e2d31",
       "range": {
         "startLine": 60,
@@ -234,6 +276,54 @@
         "startChar": 48,
         "endLine": 39,
         "endChar": 75
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8c27e82_780d7c7a",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-01T21:47:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f98cff1_9430d61f",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b39f7a14_77bf03c5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-01T21:47:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9ccb486_228181c7",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 17
       },
       "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
