@@ -57,10 +57,12 @@ public class BrokerBasedWebSessionCache
     implements Cache<String, WebSessionManager.Val>, LifecycleListener {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final Boolean DEFAULT_REPLAY_ALL_SESSIONS = true;
   private static String DEFAULT_WEB_SESSION_TOPIC = "gerrit_web_session";
 
   Cache<String, Val> cache;
   String webSessionTopicName;
+  private final Boolean replayAllSessions;
   DynamicItem<BrokerApi> brokerApi;
   TimeMachine timeMachine;
   ExecutorService executor;
@@ -81,6 +83,7 @@ public class BrokerBasedWebSessionCache
     this.brokerApi = brokerApi;
     this.timeMachine = timeMachine;
     this.webSessionTopicName = getWebSessionTopicName(cfg, pluginName);
+    this.replayAllSessions = getReplayAllSessions(cfg, pluginName);
     this.webSessionLogger = webSessionLogger;
     this.executor = executor;
     this.instanceId = gerritInstanceId;
@@ -205,6 +208,11 @@ public class BrokerBasedWebSessionCache
         .getString("webSessionTopic", DEFAULT_WEB_SESSION_TOPIC);
   }
 
+  private Boolean getReplayAllSessions(PluginConfigFactory cfg, String pluginName) {
+    return cfg.getFromGerritConfig(pluginName)
+        .getBoolean("replayAllSessions", DEFAULT_REPLAY_ALL_SESSIONS);
+  }
+
   public static class WebSessionEvent extends Event {
 
     public enum Operation {
@@ -231,7 +239,9 @@ public class BrokerBasedWebSessionCache
       throw new IllegalStateException("Cannot find binding for BrokerApi");
     }
     brokerApi.get().receiveAsync(webSessionTopicName, this::processMessage);
-    brokerApi.get().replayAllEvents(webSessionTopicName);
+    if (replayAllSessions) {
+      brokerApi.get().replayAllEvents(webSessionTopicName);
+    }
   }
 
   @Override
