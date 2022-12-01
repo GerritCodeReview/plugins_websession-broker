@@ -33,3 +33,10 @@ Configuration parameters
     If a time unit suffix is not specified, `hours` is assumed.
     Time intervals smaller than one hour are not supported.
     Default: 24 hours
+
+`plugin.websession-broker.replayAllSessions`
+:   Replay all web sessions after Gerrit start. Replaying all web sessions
+    after restart is useful when `web_sessions` cache is an in-memory cache.
+    For persisted caches this can be set to false because we need to consume
+    just the new web sessions.
+    Default: true
