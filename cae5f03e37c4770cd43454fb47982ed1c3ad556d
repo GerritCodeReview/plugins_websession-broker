@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1ae113_86c73d38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-01T21:18:57Z",
+      "side": 1,
+      "message": "yes and this still will happen. Unconsumed message are still gonna be consumed we just gonna skip the one which we already consumed in the past. We had to do that before when `web_sessions` cache was in memory cache but now with cache-chroniclemap it is persisted",
+      "parentUuid": "590e0bff_1c2c5444",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d67dda06_822635f7",
