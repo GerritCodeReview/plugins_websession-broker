@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.util.TimeMachine;
 import java.time.Instant;
 import java.util.concurrent.ExecutorService;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,6 +76,7 @@ public class BrokerBasedWebSessionCacheTest {
   @Mock PluginConfigFactory cfg;
   @Mock PluginConfig pluginConfig;
   @Mock WebSessionLogger webSessionLogger;
+  @Mock Config gerritConfig;
   @Captor ArgumentCaptor<Event> eventCaptor;
   @Captor ArgumentCaptor<Val> valCaptor;
 
@@ -99,7 +101,8 @@ public class BrokerBasedWebSessionCacheTest {
             PLUGIN_NAME,
             webSessionLogger,
             executorServce,
-            instanceId);
+            instanceId,
+            gerritConfig);
   }
 
   @Test
