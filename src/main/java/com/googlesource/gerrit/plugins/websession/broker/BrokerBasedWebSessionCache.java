@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSessionManager;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.events.Event;
 import com.google.inject.Inject;
@@ -51,6 +52,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class BrokerBasedWebSessionCache
@@ -66,6 +68,7 @@ public class BrokerBasedWebSessionCache
   ExecutorService executor;
   private final WebSessionLogger webSessionLogger;
   private String instanceId;
+  private final boolean shouldReplayAllSessions;
 
   @Inject
   public BrokerBasedWebSessionCache(
@@ -76,14 +79,20 @@ public class BrokerBasedWebSessionCache
       @PluginName String pluginName,
       WebSessionLogger webSessionLogger,
       @WebSessionProducerExecutor ExecutorService executor,
-      @Nullable @GerritInstanceId String gerritInstanceId) {
+      @Nullable @GerritInstanceId String gerritInstanceId,
+      @GerritServerConfig Config gerritConfig) {
     this.cache = cache;
     this.brokerApi = brokerApi;
     this.timeMachine = timeMachine;
     this.webSessionTopicName = getWebSessionTopicName(cfg, pluginName);
+    this.shouldReplayAllSessions = shouldReplayAllSessions(gerritConfig);
     this.webSessionLogger = webSessionLogger;
     this.executor = executor;
     this.instanceId = gerritInstanceId;
+  }
+
+  private Boolean shouldReplayAllSessions(Config gerritConfig) {
+    return gerritConfig.getInt("cache", "web_sessions", "diskLimit", 1024) == 0;
   }
 
   protected void processMessage(Event message) {
@@ -231,7 +240,9 @@ public class BrokerBasedWebSessionCache
       throw new IllegalStateException("Cannot find binding for BrokerApi");
     }
     brokerApi.get().receiveAsync(webSessionTopicName, this::processMessage);
-    brokerApi.get().replayAllEvents(webSessionTopicName);
+    if (shouldReplayAllSessions) {
+      brokerApi.get().replayAllEvents(webSessionTopicName);
+    }
   }
 
   @Override
