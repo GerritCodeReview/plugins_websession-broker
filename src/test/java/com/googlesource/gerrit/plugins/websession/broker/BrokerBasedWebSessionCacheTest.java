@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.websession.broker;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,6 +39,7 @@ import com.googlesource.gerrit.plugins.websession.broker.log.WebSessionLogger;
 import com.googlesource.gerrit.plugins.websession.broker.util.TimeMachine;
 import java.time.Instant;
 import java.util.concurrent.ExecutorService;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,6 +77,7 @@ public class BrokerBasedWebSessionCacheTest {
   @Mock PluginConfigFactory cfg;
   @Mock PluginConfig pluginConfig;
   @Mock WebSessionLogger webSessionLogger;
+  @Mock Config gerritConfig;
   @Captor ArgumentCaptor<Event> eventCaptor;
   @Captor ArgumentCaptor<Val> valCaptor;
 
@@ -89,17 +92,8 @@ public class BrokerBasedWebSessionCacheTest {
         .thenReturn("gerrit_web_session");
     when(cfg.getFromGerritConfig(PLUGIN_NAME)).thenReturn(pluginConfig);
     when(timeMachine.now()).thenReturn(Instant.EPOCH);
-    DynamicItem<BrokerApi> item = DynamicItem.itemOf(BrokerApi.class, brokerApi);
-    objectUnderTest =
-        new BrokerBasedWebSessionCache(
-            cache,
-            item,
-            timeMachine,
-            cfg,
-            PLUGIN_NAME,
-            webSessionLogger,
-            executorServce,
-            instanceId);
+
+    objectUnderTest = createBroker();
   }
 
   @Test
@@ -165,6 +159,50 @@ public class BrokerBasedWebSessionCacheTest {
     objectUnderTest.cleanUp();
 
     assertThat(cache.getIfPresent(eventMessageKey(eventMessage))).isNull();
+  }
+
+  @Test
+  public void shouldSkipSessionsReplayForPersistedCache() {
+    when(gerritConfig.getInt("cache", "web_sessions", "diskLimit", 1024)).thenReturn(2048);
+    objectUnderTest = createBroker();
+
+    objectUnderTest.start();
+
+    verify(brokerApi, never()).replayAllEvents(anyString());
+  }
+
+  @Test
+  public void shouldReplaySessionsForInMemoryCache() {
+    when(gerritConfig.getInt("cache", "web_sessions", "diskLimit", 1024)).thenReturn(0);
+
+    objectUnderTest = createBroker();
+
+    objectUnderTest.start();
+
+    verify(brokerApi, times(1)).replayAllEvents(anyString());
+  }
+
+  @Test
+  public void shouldSkipSessionsReplayForDefaultCacheSettings() {
+    when(gerritConfig.getInt("cache", "web_sessions", "diskLimit", 1024)).thenReturn(1024);
+
+    objectUnderTest = createBroker();
+    objectUnderTest.start();
+    verify(brokerApi, never()).replayAllEvents(anyString());
+  }
+
+  private BrokerBasedWebSessionCache createBroker() {
+    DynamicItem<BrokerApi> item = DynamicItem.itemOf(BrokerApi.class, brokerApi);
+    return new BrokerBasedWebSessionCache(
+        cache,
+        item,
+        timeMachine,
+        cfg,
+        PLUGIN_NAME,
+        webSessionLogger,
+        executorServce,
+        instanceId,
+        gerritConfig);
   }
 
   private Val createVal(Event message) {
