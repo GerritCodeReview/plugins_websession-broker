@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9a773890_605c7f0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:31:28Z",
+      "side": 1,
+      "message": "Agreed with Marcin: the catch-up for new sessions happens anyway, but here we are talking about the replay from the __beginning of times__.\n\nOn master, I\u0027d swap the default and set to `false`. I don\u0027t see the point to replay because the sessions are persisted anyway, right?",
+      "parentUuid": "1d1ae113_86c73d38",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d67dda06_822635f7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -61,6 +85,115 @@
       "writtenOn": "2022-12-01T21:10:16Z",
       "side": 1,
       "message": "technically LGTM.",
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d193ad_a043b75d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:31:28Z",
+      "side": 1,
+      "message": "Can we write at least 1 test for it?",
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b12e718e_3f2e2d31",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:31:28Z",
+      "side": 1,
+      "message": "This should be set to `false` on master.",
+      "range": {
+        "startLine": 60,
+        "startChar": 61,
+        "endLine": 60,
+        "endChar": 65
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ccb486_228181c7",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:31:28Z",
+      "side": 1,
+      "message": "startup",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 17
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f98cff1_9430d61f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:31:28Z",
+      "side": 1,
+      "message": "makes sense",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22bc9bd3_23d94e58",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-01T21:31:28Z",
+      "side": 1,
+      "message": "Can you point out to an example of how to understand if the cache is persisted or not?",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 75
+      },
       "revId": "cae5f03e37c4770cd43454fb47982ed1c3ad556d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
