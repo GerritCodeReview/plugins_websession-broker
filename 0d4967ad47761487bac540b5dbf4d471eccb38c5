@@ -24,6 +24,63 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7afb6800_44799048",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-02T13:06:58Z",
+      "side": 1,
+      "message": "Minor comments",
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87b0a0be_f24e6e57",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-02T13:06:58Z",
+      "side": 1,
+      "message": "As i mentioned below. Because is a boolean maybe the name could give more context.",
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a105dd34_81b85735",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-02T13:06:58Z",
+      "side": 1,
+      "message": "the method is returning a boolean. Do you think another name would provide more context?",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49ae88a0_2985f90e",
