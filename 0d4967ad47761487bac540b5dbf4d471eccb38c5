@@ -58,6 +58,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf2d12a7_38b387f8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-02T13:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87b0a0be_f24e6e57",
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a105dd34_81b85735",
@@ -71,6 +89,30 @@
       "writtenOn": "2022-12-02T13:06:58Z",
       "side": 1,
       "message": "the method is returning a boolean. Do you think another name would provide more context?",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d95b3b_1707cb91",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-02T13:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a105dd34_81b85735",
       "range": {
         "startLine": 94,
         "startChar": 18,
@@ -141,6 +183,30 @@
       "writtenOn": "2022-12-02T12:55:41Z",
       "side": 1,
       "message": "This number is irrelevant right, shouldn\u0027t use mockito anyInt() matcher here (and all other occurrences)?",
+      "range": {
+        "startLine": 166,
+        "startChar": 67,
+        "endLine": 166,
+        "endChar": 71
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbdfa6ac_f5c712e2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCacheTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-02T13:34:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c4d6fd_3655f6d8",
       "range": {
         "startLine": 166,
         "startChar": 67,
