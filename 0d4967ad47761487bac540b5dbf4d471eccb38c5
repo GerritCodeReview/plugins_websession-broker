@@ -290,6 +290,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18dbca3f_68ee9711",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-02T16:37:10Z",
+      "side": 1,
+      "message": "Sorry I my mistake, of course we want to skip replay when peristent is *enabled* and yes by default web_session cache persistency is enabled by default\nhttps://gerrit-documentation.storage.googleapis.com/Documentation/3.0.0/config-gerrit.html#cache.name.diskLimit\n`Default is 128 MiB per cache, except:`",
+      "parentUuid": "691a5551_52e312d3",
+      "range": {
+        "startLine": 95,
+        "startChar": 69,
+        "endLine": 95,
+        "endChar": 73
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3c4d6fd_3655f6d8",
