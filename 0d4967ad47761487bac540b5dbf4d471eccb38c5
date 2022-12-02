@@ -244,6 +244,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6b65924_59fe1248",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-02T14:09:51Z",
+      "side": 1,
+      "message": "mmm, I haven\u0027t tested directly, but by looking at the code I can see that:\n\n- persist does not define an explicit `diskLimit` [1]\n- By default `diskLimit` is disabled [2]\n\nAlso, the documentation seems to suggest so [3]\n\n```\nIf no disk cache is configured (or cache.web_sessions.diskLimit is set to 0) a server restart will force all users to sign-out, and need to sign-in again after the restart, as the cache was unable to persist the session information. Enabling a disk cache is strongly recommended.\n```\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/httpd/H2CacheBasedWebSession.java#42\n\n[2]https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/server/cache/PersistentCacheBinding.java#47\n\n[3] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.0/config-gerrit.html#cache_names",
+      "parentUuid": "f42846f9_40b631b0",
+      "range": {
+        "startLine": 95,
+        "startChar": 69,
+        "endLine": 95,
+        "endChar": 73
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3c4d6fd_3655f6d8",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCacheTest.java",
         "patchSetId": 5
