@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1ea1cc0_71da55c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-02T12:55:41Z",
+      "side": 1,
+      "message": "makes",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ae88a0_2985f90e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-02T12:55:41Z",
+      "side": 1,
+      "message": "Why 1024?\nIf `diskLimit` is not set, doesn\u0027t it mean that persistency for that cache is disabled?\n\nFrom the documentation\n```\nIf 0 or negative, persistence for the cache is disabled by default, but may still be overridden in the config.\n```",
+      "range": {
+        "startLine": 95,
+        "startChar": 69,
+        "endLine": 95,
+        "endChar": 73
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c4d6fd_3655f6d8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCacheTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-02T12:55:41Z",
+      "side": 1,
+      "message": "This number is irrelevant right, shouldn\u0027t use mockito anyInt() matcher here (and all other occurrences)?",
+      "range": {
+        "startLine": 166,
+        "startChar": 67,
+        "endLine": 166,
+        "endChar": 71
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
