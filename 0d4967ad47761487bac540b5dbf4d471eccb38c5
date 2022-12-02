@@ -196,6 +196,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65ec4a92_bd0826f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-02T13:56:32Z",
+      "side": 1,
+      "message": "\u003e we want to skip replay only of the cache is explicitly disabled in the configuration\n\nDid you mean that you want to skip the replay when the cache persistency is _enabled_, right? not when it is disabled.\n\nIt seems to me that, by default, `web_sessions` cache persistency is _disabled_ (`persistence for the cache is disabled by default`).\n\nIf that\u0027s the case, we should be replaying all sessions not skipping them.\n\nThe code above suggests that we will skip the replay instead, unless I am reading it wrong.",
+      "parentUuid": "80910686_982b2628",
+      "range": {
+        "startLine": 95,
+        "startChar": 69,
+        "endLine": 95,
+        "endChar": 73
+      },
+      "revId": "0d4967ad47761487bac540b5dbf4d471eccb38c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3c4d6fd_3655f6d8",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/websession/broker/BrokerBasedWebSessionCacheTest.java",
         "patchSetId": 5
