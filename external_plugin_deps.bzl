@@ -15,12 +15,6 @@ def external_plugin_deps():
     BYTE_BUDDY_VERSION = "1.9.10"
 
     maven_jar(
-        name = "events-broker",
-        artifact = "com.gerritforge:events-broker:3.4.0.4",
-        sha1 = "8d361d863382290e33828116e65698190118d0f1",
-    )
-
-    maven_jar(
         name = "byte-buddy",
         artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
         sha1 = "211a2b4d3df1eeef2a6cacf78d74a1f725e7a840",
