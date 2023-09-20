@@ -1,23 +1,23 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 load(
     "//tools/bzl:plugin.bzl",
-    "gerrit_plugin",
     "PLUGIN_DEPS",
     "PLUGIN_TEST_DEPS",
+    "gerrit_plugin",
 )
 
 gerrit_plugin(
     name = "websession-broker",
     srcs = glob(["src/main/java/**/*.java"]),
-    resources = glob(["src/main/resources/**/*"]),
-    deps = [
-        "@events-broker//jar",
-    ],
     manifest_entries = [
         "Gerrit-PluginName: websession-broker",
         "Gerrit-HttpModule: com.googlesource.gerrit.plugins.websession.broker.BrokerBasedWebSession$Module",
         "Implementation-Title: Broker WebSession",
         "Implementation-URL: https://review.gerrithub.io/admin/repos/GerritForge/plugins_websession-broker",
+    ],
+    resources = glob(["src/main/resources/**/*"]),
+    deps = [
+        ":events-broker-neverlink",
     ],
 )
 
@@ -38,6 +38,12 @@ java_library(
     exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":websession-broker__plugin",
         "@mockito//jar",
-        "@events-broker//jar",
+        "//plugins/events-broker",
     ],
+)
+
+java_library(
+    name = "events-broker-neverlink",
+    neverlink = 1,
+    exports = ["//plugins/events-broker"],
 )
