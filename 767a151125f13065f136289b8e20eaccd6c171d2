@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b5d4e7a_42ac5611",
+        "filename": "Jenkinsfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-20T14:00:41Z",
+      "side": 1,
+      "message": "Why do we set these to `events-kafka` and then change them to `websession-broker` in the next commit in this chain?",
+      "revId": "767a151125f13065f136289b8e20eaccd6c171d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
