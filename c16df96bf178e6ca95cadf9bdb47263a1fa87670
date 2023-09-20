@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd2bec1_3e10129d",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-20T15:18:43Z",
+      "side": 1,
+      "message": "This should be a separate change, I think - seems unrelated to events-broker change.",
+      "revId": "c16df96bf178e6ca95cadf9bdb47263a1fa87670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
