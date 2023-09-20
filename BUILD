@@ -11,7 +11,7 @@ gerrit_plugin(
     srcs = glob(["src/main/java/**/*.java"]),
     resources = glob(["src/main/resources/**/*"]),
     deps = [
-        "@events-broker//jar",
+        ":events-broker-neverlink",
     ],
     manifest_entries = [
         "Gerrit-PluginName: websession-broker",
@@ -38,6 +38,12 @@ java_library(
     exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":websession-broker__plugin",
         "@mockito//jar",
-        "@events-broker//jar",
+        "//plugins/events-broker",
     ],
+)
+
+java_library(
+    name = "events-broker-neverlink",
+    neverlink = 1,
+    exports = ["//plugins/events-broker"],
 )
