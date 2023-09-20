@@ -1,2 +1,3 @@
-pluginPipeline(formatCheckId: 'gerritforge:plugins-events-kafka-code-style',
-                buildCheckId: 'gerritforge:plugins-events-kafka-build-test')
+pluginPipeline(formatCheckId: 'gerritforge:plugins-websession-broker-code-style',
+                buildCheckId: 'gerritforge:plugins-websession-broker-build-test',
+                extraModules: ['events-broker'])
