@@ -38,12 +38,12 @@ java_library(
     exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":websession-broker__plugin",
         "@mockito//jar",
-        "//plugins/events-broker",
+        "//modules/events-broker",
     ],
 )
 
 java_library(
     name = "events-broker-neverlink",
     neverlink = 1,
-    exports = ["//plugins/events-broker"],
+    exports = ["//modules/events-broker"],
 )

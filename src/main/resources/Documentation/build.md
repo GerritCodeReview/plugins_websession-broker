@@ -7,7 +7,7 @@ Clone (or link) this plugin to the `plugins` directory of Gerrit's
 source tree. Put the external dependency Bazel build file into
 the Gerrit /plugins directory, replacing the existing empty one.
 The plugin depends on [events-broker](https://gerrit.googlesource.com/modules/events-broker)
-which is linked directly from source with the same 'in-tree' plugin structure.
+which is linked directly from source into the `modules` folder.
 
 ```
   cd gerrit/plugins
